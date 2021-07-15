@@ -8,8 +8,8 @@
             <?php include(__DIR__.'/sub/navbar.php');?>
             
             
-            <div class="card bg-light">
-                <div class="card-body mb-5">
+            <div class="card bg-light mb-5">
+                <div class="card-body">
                     <?=$entry['body'];?>
                 </div>  
             </div>
