@@ -10,9 +10,16 @@ class Common {
             return $url;
         
         if(substr(CONFIG_BASE_URL,-1) == "/")
-            return CONFIG_BASE_URL.$url;
+            $newUrl =  CONFIG_BASE_URL;
         else
-            return CONFIG_BASE_URL."/".$url;
+            $newUrl = CONFIG_BASE_URL."/";
+        
+        if(substr($url,0,1) == "/")
+            $newUrl = $newUrl;
+        else
+            $newUrl = "/".$newUrl;
+
+        return $newUrl;
     }
 
     public static function getEnv($key, $default = ""){
