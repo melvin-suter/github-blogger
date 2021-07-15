@@ -13,6 +13,6 @@ class Common {
     }
 
     public static function getEnv($key, $default = ""){
-        getenv($key);
+        return isset($_ENV[$key]) ? $_ENV[$key] : $default;
     }
 }
