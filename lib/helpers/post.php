@@ -121,7 +121,7 @@ class Post {
     public static function getNumberOfPages($itemsPerPage){
         $entries = self::getAllPostsSorted();
 
-        return count($entries) & $itemsPerPage;
+        return count($entries) % $itemsPerPage;
     }
 
     public static function getPostsFrom($page,$itemsPerPage){
