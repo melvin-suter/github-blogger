@@ -52,13 +52,13 @@ class Post {
 
     public static function show($slug){
         if($slug == "home")
-            $cacheEntry = self::checkCache($_SERVER["REQUEST_URI"]);
+            $cacheEntry = self::checkCache(str_replace("clear-cache","",$_SERVER["REQUEST_URI"]));
         else
             $cacheEntry = self::checkCache($slug);
 
         if($cacheEntry == false){
             if($slug == "home")
-                $cacheEntry = self::generateCache($slug,$_SERVER["REQUEST_URI"]);
+                $cacheEntry = self::generateCache($slug,str_replace("clear-cache","",$_SERVER["REQUEST_URI"]));
             else
                 $cacheEntry = self::generateCache($slug,$slug);
         } 
