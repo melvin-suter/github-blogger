@@ -129,7 +129,7 @@ class Post {
     public static function getPostsFrom($page,$itemsPerPage){
         $entries = self::getAllPostsSorted();
 
-        $offset = ($page - 1) * $itemsPerPage + 1;
+        $offset = ($page - 1) * $itemsPerPage;
 
         return array_slice($entries, $offset, $itemsPerPage);
     }
