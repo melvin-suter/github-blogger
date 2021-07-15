@@ -103,6 +103,9 @@ class Post {
 
         foreach($files as $file){
             $meta = self::getMetaData($file);
+
+            if($meta['layout'] == "page" || $meta['layout'] == "home")
+                continue;
             
             if(count($entries) < $number){
                 $entries[$meta['timestamp']] = $meta;
