@@ -15,9 +15,9 @@ class Common {
             $newUrl = CONFIG_BASE_URL."/";
         
         if(substr($url,0,1) == "/")
-            $newUrl = $newUrl;
+            $newUrl = $url;
         else
-            $newUrl = "/".$newUrl;
+            $newUrl = "/".$url;
 
         return $newUrl;
     }
