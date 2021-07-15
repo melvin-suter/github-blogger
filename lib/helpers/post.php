@@ -97,7 +97,10 @@ class Post {
         return $fileHit;
     }
 
-    public static function getNewestPosts($number = 5){
+
+    
+
+    public static function getAllPostsSorted(){
         $files = glob(contentDir.'/*.md');
         $entries = [];
 
@@ -107,20 +110,26 @@ class Post {
             if($meta['layout'] == "page" || $meta['layout'] == "home")
                 continue;
             
-            if(count($entries) < $number){
-                $entries[$meta['timestamp']] = $meta;
-                ksort($entries);
-            }
-            else{
-                if(array_keys($entries)[0] < $meta['timestamp']){
-                    unset($entries[array_keys($entries)[0]]);
-                    $entries[$meta['timestamp']] = $meta;
-                    ksort($entries);
-                }
-            }
+            $entries[$meta['timestamp']] = $meta;
         }
 
+        ksort($entries);
+
         return $entries;
+    }
+
+    public static function getNumberOfPages($itemsPerPage){
+        $entries = self::getAllPostsSorted();
+
+        return length($entries) & $itemsPerPage;
+    }
+
+    public static function getPostsFrom($page,$itemsPerPage){
+        $entries = self::getAllPostsSorted();
+
+        $offset = ($page - 1) * $itemsPerPage + 1;
+
+        return array_slice($entries, $offset, $itemsPerPage);
     }
 
     public static function getMenuPages(){
