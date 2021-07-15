@@ -3,19 +3,20 @@
 class Post {
 
     private static function checkCache($slug){
+        $uri = $_SERVER["REQUEST_URI"];
         $data = json_decode(file_get_contents(cacheDBPath),true);
         $res = false;
 
-        if(array_key_exists($slug,$data))
+        if(array_key_exists($uri,$data))
         {
-            $diff = (new DateTime)->diff(DateTime::createFromFormat("u",$data[$slug]['timestamp']));
+            $diff = (new DateTime)->diff(DateTime::createFromFormat("u",$data[$uri]['timestamp']));
 
             if($diff->s <= 3600 && Common::get('clear-cache',0) == 0){
-                $res = $data[$slug];
+                $res = $data[$uri];
             } else {
                 $res = false;
-                unlink(cacheDir."/".$data[$slug]['id']);
-                unset($data[$slug]);
+                unlink(cacheDir."/".$data[$uri]['id']);
+                unset($data[$uri]);
                 file_put_contents(cacheDBPath,json_encode($data));
             }
         }
@@ -24,6 +25,7 @@ class Post {
     }
 
     private static function generateCache($slug){
+        $uri = $_SERVER["REQUEST_URI"];
         $data = json_decode(file_get_contents(cacheDBPath),true);
         $file = self::findFileToSlug($slug);
         if($file == false)
@@ -45,7 +47,7 @@ class Post {
         $output = ob_get_clean();
         file_put_contents(cacheDir."/".$cacheEntry['id'],$output);
 
-        $data[$slug] = $cacheEntry;
+        $data[$uri] = $cacheEntry;
         file_put_contents(cacheDBPath,json_encode($data));
         return $cacheEntry;
     }
