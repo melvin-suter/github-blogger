@@ -9,7 +9,7 @@
             
             
             <div class="card bg-light">
-                <div class="card-body">
+                <div class="card-body mb-5">
                     <?=$entry['body'];?>
                 </div>  
             </div>
@@ -26,6 +26,9 @@
                         </div>
 
                     <?php
+                }
+
+
                         if(Post::getNumberOfPages(10) > 1){
                             ?>
                                 <nav>
@@ -54,9 +57,6 @@
                             <?php
                         }
                     ?>
-
-                    <?php
-                }?>
 
             <?php include(__DIR__.'/sub/foot.php');?>
         </div>
