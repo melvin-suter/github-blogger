@@ -31,7 +31,7 @@
 
                         if(Post::getNumberOfPages(10) > 1){
                             ?>
-                                <nav>
+                                <div class="mt-5 w-100 d-flex justify-content-center">
                                     <ul class="pagination">
                                         <?php
                                             if(Common::get('page',1) > 1){
@@ -46,14 +46,14 @@
 
                                         
 
-                                        if(Post::getNumberOfPages(10) < Common::get('page',1)){
+                                        if(Common::get('page',1) < Post::getNumberOfPages(10)){
                                             echo '<li class="page-item"><a class="page-link" href="?page='.(Common::get('page',1) + 1).'">Next</a></li>';
                                         } else {
                                             echo '<li class="page-item"><a class="page-link">Next</a></li>';
                                         }
                                         ?>
                                     </ul>
-                                </nav>
+                                </div>
                             <?php
                         }
                     ?>
