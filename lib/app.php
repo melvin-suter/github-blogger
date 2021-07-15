@@ -18,10 +18,6 @@ switch($action) {
         $slug = Common::get('s','404');
         Post::show($slug);
         break;
-    case 'home':
-        Post::show('home');
-        include(templateDir.'/home.php');
-        break;
     default:
         Post::show('404');
         break;    
