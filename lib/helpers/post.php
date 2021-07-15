@@ -6,7 +6,7 @@ class Post {
         $data = json_decode(file_get_contents(cacheDBPath),true);
         $res = false;
 
-        if(array_key_exists($uri,$data))
+        if(array_key_exists($id,$data))
         {
             $diff = (new DateTime)->diff(DateTime::createFromFormat("u",$data[$id]['timestamp']));
 
@@ -167,7 +167,7 @@ class Post {
         }
         file_put_contents(cacheDBPath,'[]');
 
-        header("Location ".Common::url("/"));
+        header("Location: ".Common::url("/"));
         exit;
     }
 }
