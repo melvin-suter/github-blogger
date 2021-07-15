@@ -6,7 +6,7 @@ class Post {
         $data = json_decode(file_get_contents(cacheDBPath),true);
         $res = false;
 
-        if(array_key_exists($id,$data))
+        if(array_key_exists($uri,$data))
         {
             $diff = (new DateTime)->diff(DateTime::createFromFormat("u",$data[$id]['timestamp']));
 
@@ -52,13 +52,13 @@ class Post {
 
     public static function show($slug){
         if($slug == "home")
-            $cacheEntry = self::checkCache(str_replace("clear-cache","",$_SERVER["REQUEST_URI"]));
+            $cacheEntry = self::checkCache($_SERVER["REQUEST_URI"]);
         else
             $cacheEntry = self::checkCache($slug);
 
         if($cacheEntry == false){
             if($slug == "home")
-                $cacheEntry = self::generateCache($slug,str_replace("clear-cache","",$_SERVER["REQUEST_URI"]));
+                $cacheEntry = self::generateCache($slug,$_SERVER["REQUEST_URI"]);
             else
                 $cacheEntry = self::generateCache($slug,$slug);
         } 
