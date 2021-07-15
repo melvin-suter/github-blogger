@@ -2,21 +2,20 @@
 
 class Post {
 
-    private static function checkCache($slug){
-        $uri = $_SERVER["REQUEST_URI"];
+    private static function checkCache($id){
         $data = json_decode(file_get_contents(cacheDBPath),true);
         $res = false;
 
         if(array_key_exists($uri,$data))
         {
-            $diff = (new DateTime)->diff(DateTime::createFromFormat("u",$data[$uri]['timestamp']));
+            $diff = (new DateTime)->diff(DateTime::createFromFormat("u",$data[$id]['timestamp']));
 
             if($diff->s <= 3600 && Common::get('clear-cache',0) == 0){
-                $res = $data[$uri];
+                $res = $data[$id];
             } else {
                 $res = false;
-                unlink(cacheDir."/".$data[$uri]['id']);
-                unset($data[$uri]);
+                unlink(cacheDir."/".$data[$id]['id']);
+                unset($data[$id]);
                 file_put_contents(cacheDBPath,json_encode($data));
             }
         }
@@ -24,8 +23,7 @@ class Post {
         return $res;
     }
 
-    private static function generateCache($slug){
-        $uri = $_SERVER["REQUEST_URI"];
+    private static function generateCache($slug,$id){
         $data = json_decode(file_get_contents(cacheDBPath),true);
         $file = self::findFileToSlug($slug);
         if($file == false)
@@ -47,15 +45,22 @@ class Post {
         $output = ob_get_clean();
         file_put_contents(cacheDir."/".$cacheEntry['id'],$output);
 
-        $data[$uri] = $cacheEntry;
+        $data[$id] = $cacheEntry;
         file_put_contents(cacheDBPath,json_encode($data));
         return $cacheEntry;
     }
 
     public static function show($slug){
-        $cacheEntry = self::checkCache($slug);
+        if($slug == "home")
+            $cacheEntry = self::checkCache($_SERVER["REQUEST_URI"]);
+        else
+            $cacheEntry = self::checkCache($slug);
+
         if($cacheEntry == false){
-            $cacheEntry = self::generateCache($slug);
+            if($slug == "home")
+                $cacheEntry = self::generateCache($slug,$_SERVER["REQUEST_URI"]);
+            else
+                $cacheEntry = self::generateCache($slug,$slug);
         } 
 
         if($cacheEntry == false){
