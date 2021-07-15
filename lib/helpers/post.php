@@ -157,4 +157,17 @@ class Post {
         ksort($menuEntires);
         return $menuEntires;
     }
+
+    public static function clearCache(){
+
+        $files = glob(cacheDir.'/temp_*');
+
+        foreach($files as $file){
+            unlink($file);
+        }
+        file_put_contents(cacheDBPath,'[]');
+
+        header("Location ".Common::url("/"));
+        exit;
+    }
 }

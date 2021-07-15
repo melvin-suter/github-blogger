@@ -16,6 +16,10 @@ $action = Common::get('a','home');
 switch($action) {
     case 'post':
         $slug = Common::get('s','404');
+
+        if($slug == "clear-all-cache")
+            Post::clearCache();
+
         Post::show($slug);
         break;
     default:
